@@ -39,7 +39,7 @@ First, you need to add the two `devDepencencies` in `package.json`:
       },
       'meteor-cleanup': {
         // remove build files and package.js
-        command: 'rm -rf ".build.*" versions.json package.js'
+        command: 'rm -rf .build.* versions.json package.js'
       },
       'meteor-test': {
         command: 'spacejam --mongo-url mongodb:// test-packages ./'
@@ -78,7 +78,7 @@ First, you need to add the two `devDepencencies` in `package.json`:
             },
             'meteor-cleanup': {
                 // remove build files and package.js
-                command: 'rm -rf ".build.*" versions.json package.js'
+                command: 'rm -rf .build.* versions.json package.js'
             },
             'meteor-test': {
                 command: 'spacejam --mongo-url mongodb:// test-packages ./'
