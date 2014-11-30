@@ -25,7 +25,9 @@ plugin to publish to Atmosphere, because this should be done through the `meteor
     }
 
   ...
+  // !- add the line below ONLY if you see other grunt.loadNpmTasks() calls
   grunt.loadNpmTasks('grunt-shell');
+  // !- you DON'T need to add the line above if you see: require('load-grunt-tasks')(grunt);
 
   ...
   // Meteor tasks
@@ -61,4 +63,4 @@ plugin to publish to Atmosphere, because this should be done through the `meteor
 
 The `grunt-shell` plugin should be part of `devDependencies` in `package.json`. Add the line below to that section:
 
-    "grunt-shell": "*"
+    "grunt-shell": "^1.1.1"
