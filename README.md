@@ -13,6 +13,14 @@ For testing, we'll use [spacejam](stackoverflow.com/questions/27209779/exit-mete
 
 Add the lines below in the corresponding sections in the Gruntfile. For your convenience, there are 2- and 4-space indented sections, and a .coffee file.
 
+## package.json
+
+First, you need to add the two `devDepencencies` in `package.json`:
+
+    "grunt-exec": "^0.4.6"
+    "spacejam": "^1.1.1"
+
+
 ## Gruntfile.js - 2-space indentation
 
 ```js
@@ -127,11 +135,4 @@ Add the lines below in the corresponding sections in the Gruntfile. For your con
   grunt.registerTask 'meteor-publish', ['exec:meteor-init', 'exec:meteor-publish', 'exec:meteor-cleanup']
   grunt.registerTask 'meteor', ['exec:meteor-init', 'exec:meteor-test', 'exec:meteor-publish', 'exec:meteor-cleanup']
 ```
-
-## package.json
-
-You need to add two `devDepencencies` in `package.json`:
-
-    "grunt-exec": "^0.4.6"
-    "spacejam": "^1.1.1"
 
