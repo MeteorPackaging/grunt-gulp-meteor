@@ -4,8 +4,7 @@ grunt-meteor
 When [submitting PRs to library authors to add Meteor integration](https://github.com/raix/Meteor-community-discussions/issues/14),
 it helps to match their build process.
 
-Most packages use the [Grunt](gruntjs.com) task runner and a `package.json`. To make it extra easy on the maintainers, below
-are quasi-diffs that do Meteor testing and publishing.
+Most packages use the [Grunt](http://gruntjs.com) task runner and a `package.json`. To make it extra easy on the maintainers, below are quasi-diffs that do Meteor testing and publishing.
 
 There is no direct Grunt plugin to publish to Atmosphere, because this should be done through the `meteor` tool. We'll execute `meteor publish` using the [grunt-exec](https://github.com/jharding/grunt-exec) plugin.
 
@@ -20,6 +19,7 @@ First, you need to add the two `devDepencencies` in `package.json`:
     "grunt-exec": "^0.4.6"
     "spacejam": "^1.1.1"
 
+It may be tempted to [add Meteor as a sort of devDependency](https://github.com/MeteorPackaging/grunt-meteor/issues/1#issuecomment-65001441), but most of the time, the original author won't deal with Meteor; as for Meteor devs, they already have Meteor. Thus we'll install Meteor if it's not installed already, from the Grunt file. It has also been suggested to [just check if Meteor is installed and print a warning otherwise](https://github.com/MeteorPackaging/grunt-meteor/issues/1#issuecomment-65030301) when running `meteor` tasks, instead of automagically installing it.
 
 ## Gruntfile.js - 2-space indentation
 
@@ -42,7 +42,7 @@ First, you need to add the two `devDepencencies` in `package.json`:
         command: 'rm -rf .build.* versions.json package.js'
       },
       'meteor-test': {
-        command: 'spacejam --mongo-url mongodb:// test-packages ./'
+        command: 'node_modules/.bin/spacejam --mongo-url mongodb:// test-packages ./'
       },
       'meteor-publish': {
         command: 'meteor publish'
@@ -81,7 +81,7 @@ First, you need to add the two `devDepencencies` in `package.json`:
                 command: 'rm -rf .build.* versions.json package.js'
             },
             'meteor-test': {
-                command: 'spacejam --mongo-url mongodb:// test-packages ./'
+                command: 'node_modules/.bin/spacejam --mongo-url mongodb:// test-packages ./'
             },
             'meteor-publish': {
                 command: 'meteor publish'
@@ -136,3 +136,25 @@ First, you need to add the two `devDepencencies` in `package.json`:
   grunt.registerTask 'meteor', ['exec:meteor-init', 'exec:meteor-test', 'exec:meteor-publish', 'exec:meteor-cleanup']
 ```
 
+## .travis.yml
+
+We can include Meteor tests in the continuous integration file, [.travis.yml](https://github.com/MeteorPackaging/hammer.js/blob/master/.travis.yml):
+
+```yml
+language: node_js
+node_js:
+  - "0.10"
+
+before_script:
+  - npm install -g grunt-cli
+  # Install meteor - preemptive installation because installing via grunt-exect has failed in the past
+  - curl https://install.meteor.com | /bin/sh
+  # Install spacejam, Meteor's CI helper
+  - npm install -g spacejam
+
+script:
+  - grunt test-travis
+  - grunt meteor-test
+```
+
+Regarding the preemptive installation of Meteor, check [this Travil build log for hammer.js](https://travis-ci.org/MeteorPackaging/hammer.js/builds/42705466). Installing Meteor via `grunt-exec` has failed for no clear reason, but installing via `.travis.yml` hasn't yet (ever), so be safe. On the other hand, it's possible that that particular grunt-exec failure was caused by a transient network error.
