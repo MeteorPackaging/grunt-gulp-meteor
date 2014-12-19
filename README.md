@@ -25,7 +25,14 @@ It may be tempted to [add Meteor as a sort of devDependency](https://github.com/
 
 ```js
 
+    // if there's a "clean" task, add Meteor to it; otherwise, see meteor-cleanup below
+    clean: {
+      ...
+      meteor: ['.build.*', 'versions.json', 'package.js']
+    }
+    
     ...
+    
     exec: {
       'meteor-init': {
         command: [
@@ -37,6 +44,7 @@ It may be tempted to [add Meteor as a sort of devDependency](https://github.com/
           'cp meteor/package.js .'
         ].join(';')
       },
+      // !- only add this if there was no "clean" task
       'meteor-cleanup': {
         // remove build files and package.js
         command: 'rm -rf .build.* versions.json package.js'
@@ -65,6 +73,14 @@ It may be tempted to [add Meteor as a sort of devDependency](https://github.com/
 ## Gruntfile.js - 4-space indentation
 
 ```js
+        // if there's a "clean" task, add Meteor to it; otherwise, see meteor-cleanup below
+        clean: {
+            ...
+            meteor: ['.build.*', 'versions.json', 'package.js']
+        }
+    
+        ...
+    
         exec: {
             'meteor-init': {
                 command: [
@@ -76,6 +92,7 @@ It may be tempted to [add Meteor as a sort of devDependency](https://github.com/
                     'cp meteor/package.js .'
                 ].join(';')
             },
+            // !- only add this if there was no "clean" task
             'meteor-cleanup': {
                 // remove build files and package.js
                 command: 'rm -rf .build.* versions.json package.js'
@@ -106,6 +123,14 @@ It may be tempted to [add Meteor as a sort of devDependency](https://github.com/
 ## Gruntfile.coffee
 
 ```coffee
+
+    # if there's a "clean" task, add Meteor to it; otherwise, see meteor-cleanup below
+    clean:
+      ...
+      meteor: ['.build.*', 'versions.json', 'package.js']
+
+    ...
+    
     exec:
       'meteor-init':
         command: [
@@ -116,6 +141,7 @@ It may be tempted to [add Meteor as a sort of devDependency](https://github.com/
           # of the checkout, so copy it there temporarily
           'cp meteor/package.js .'
         ].join(';')
+      # !- only add this if there was no "clean" task
       'meteor-cleanup':
         # remove build files and package.js
         command: 'rm -rf .build.* versions.json package.js'
@@ -147,11 +173,9 @@ node_js:
 
 before_script:
   - npm install -g grunt-cli
-  # Install meteor - preemptive installation because installing via grunt-exect has failed in the past
+  # Install Meteor preemptively because installing via grunt-exect has failed in the past
   - curl https://install.meteor.com | /bin/sh
-  # Install spacejam, Meteor's CI helper
-  - npm install -g spacejam
-
+  
 script:
   - grunt test-travis
   - grunt meteor-test
