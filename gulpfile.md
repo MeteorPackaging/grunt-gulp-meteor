@@ -23,4 +23,4 @@ gulp.task('meteor-publish', ['meteor-init'], function () {
 });
 ```
 
-See [the main README](#README.md) for more details.
+See [the main README](/README.md) for more details.
