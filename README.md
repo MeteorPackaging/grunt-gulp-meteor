@@ -8,7 +8,7 @@ Most packages use the [Grunt](http://gruntjs.com) task runner and a `package.jso
 
 There is no direct Grunt plugin to publish to Atmosphere, because this should be done through the `meteor` tool. We'll execute `meteor publish` using the [grunt-exec](https://github.com/jharding/grunt-exec) plugin.
 
-For testing, we'll use [spacejam](stackoverflow.com/questions/27209779/exit-meteor-tinytest-after-after-all-tests-have-been-completed), which in turn executes `meteor test-packages`.
+For testing, we'll use [spacejam](http://stackoverflow.com/questions/27209779/exit-meteor-tinytest-after-after-all-tests-have-been-completed), which in turn executes `meteor test-packages`.
 
 Add the lines below in the corresponding sections in the Gruntfile. For your convenience, there are 2- and 4-space indented sections, and a .coffee file.
 
